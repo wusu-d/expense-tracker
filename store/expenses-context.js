@@ -1,68 +1,7 @@
 import { createContext, useReducer } from "react";
 
 const INITIAL_STATE = {
-  expenses: [
-    {
-      id: "e1",
-      description: "A pair of shoes",
-      amount: 59.99,
-      date: new Date("2021-12-19"),
-    },
-    {
-      id: "e2",
-      description: "A pair of trousers",
-      amount: 79.43,
-      date: new Date("2022-01-17"),
-    },
-    {
-      id: "e3",
-      description: "Some bananas",
-      amount: 21.61,
-      date: new Date("2022-06-16"),
-    },
-    {
-      id: "e4",
-      description: "A book",
-      amount: 10.52,
-      date: new Date("2022-06-20"),
-    },
-    {
-      id: "e5",
-      description: "Dinner",
-      amount: 100.28,
-      date: new Date("2022-05-05"),
-    },
-    {
-      id: "e6",
-      description: "A pair of shoes",
-      amount: 59.99,
-      date: new Date("2021-12-19"),
-    },
-    {
-      id: "e7",
-      description: "A pair of trousers",
-      amount: 79.43,
-      date: new Date("2022-01-17"),
-    },
-    {
-      id: "e8",
-      description: "Some bananas",
-      amount: 21.61,
-      date: new Date("2021-12-30"),
-    },
-    {
-      id: "e9",
-      description: "A book",
-      amount: 10.52,
-      date: new Date("2022-06-04"),
-    },
-    {
-      id: "e10",
-      description: "Dinner",
-      amount: 100.28,
-      date: new Date("2022-06-19"),
-    },
-  ],
+  expenses: [],
 };
 
 export const ExpensesContext = createContext(INITIAL_STATE);
@@ -77,6 +16,11 @@ const ExpensesReducer = (state, action) => {
         expenses: state.expenses.filter(
           (expense) => expense.id !== action.payload
         ),
+      };
+    case "SET":
+      const inverted = action.payload.reverse();
+      return {
+        expenses: inverted,
       };
     case "UPDATE":
       const updatableExpenseIndex = state.expenses.findIndex(

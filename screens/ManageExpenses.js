@@ -1,10 +1,11 @@
 import { useContext, useLayoutEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import ExpenseForm from "../components/ManageExpense/ExpenseForm";
-import Button from "../components/ui/Button";
+
 import IconButton from "../components/ui/IconButton";
 import { GlobalStyles } from "../constants/styles";
 import { ExpensesContext } from "../store/expenses-context";
+import { deleteExpense, storeExpense, updatedExpense } from "../util/http";
 
 const ManageExpense = ({ route, navigation }) => {
   const { expenses, dispatch } = useContext(ExpensesContext);
@@ -19,7 +20,8 @@ const ManageExpense = ({ route, navigation }) => {
     });
   }, [isEditExpense, navigation]);
 
-  const deleteExpenseHandler = () => {
+  const deleteExpenseHandler = async () => {
+    await deleteExpense(expenseID);
     dispatch({ type: "DELETE", payload: expenseID });
     navigation.goBack();
   };
@@ -28,7 +30,7 @@ const ManageExpense = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  const confirmHandler = (expenseData) => {
+  const confirmHandler = async (expenseData) => {
     if (isEditExpense) {
       dispatch({
         type: "UPDATE",
@@ -37,10 +39,12 @@ const ManageExpense = ({ route, navigation }) => {
           data: expenseData,
         },
       });
+      await updatedExpense(expenseID, expenseData);
     } else {
+      const id = await storeExpense(expenseData);
       dispatch({
         type: "ADD",
-        payload: expenseData,
+        payload: { ...expenseData, id: id },
       });
     }
     navigation.goBack();
