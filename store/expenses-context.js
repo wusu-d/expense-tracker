@@ -9,8 +9,7 @@ export const ExpensesContext = createContext(INITIAL_STATE);
 const ExpensesReducer = (state, action) => {
   switch (action.type) {
     case "ADD":
-      const id = new Date().toString() + Math.random().toString();
-      return { expenses: [{ ...action.payload, id: id }, ...state.expenses] };
+      return { expenses: [{ ...action.payload }, ...state.expenses] };
     case "DELETE":
       return {
         expenses: state.expenses.filter(

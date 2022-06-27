@@ -9,12 +9,12 @@ export const storeExpense = async (expenseData) => {
 };
 
 export const getExpenses = async () => {
-  const res = await axios.get(`${BACKEND_URL}/expenses`);
+  const res = await axios.get(`${BACKEND_URL}/expenses.json`);
 
   const expenses = [];
 
   for (const key in res.data) {
-    exoenses.push({
+    expenses.push({
       id: key,
       date: new Date(res.data[key].date),
       amount: res.data[key].amount,
